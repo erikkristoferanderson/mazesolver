@@ -51,7 +51,7 @@ class Cell:
     _x1 and _y1 represent the top left corner of the cell
     _x2 and _y2 represent the bottom right corner of the cell
     """
-    def __init__(self, _x1, _x2, _y1, _y2, _win,
+    def __init__(self, _x1, _x2, _y1, _y2, _win: Window,
         has_left_wall=True,
         has_right_wall=True,
         has_top_wall=True,
@@ -80,3 +80,15 @@ class Cell:
         if self.has_left_wall:
             l = Line(Point(self._x1,self._y2), Point(self._x1, self._y1))
             self._win.draw_line(l)
+
+    def draw_move(self, to_cell, undo=False):
+        self_x_center = (self._x1 + self._x2) / 2
+        to_cell_x_center = (to_cell._x1 + to_cell._x2) / 2
+        self_y_center = (self._y1 + self._y2) / 2
+        to_cell_y_center = (to_cell._y1 + to_cell._y2) / 2    
+        if undo:
+            color = 'red'
+        else:
+            color = 'gray'
+        l = Line(Point(self_x_center, self_y_center), Point(to_cell_x_center, to_cell_y_center)) 
+        self._win.draw_line(l, color)
