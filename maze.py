@@ -1,4 +1,5 @@
 from graphics import Window, Cell
+import time
 
 class Maze:
     def __init__(
@@ -40,4 +41,14 @@ class Maze:
 
         for row in self._cells:
             for cell in row:
-                cell.draw()
+                # cell.draw()
+                pass
+
+    def _draw_cell(self, i, j):
+        self._cells[i][j].draw()
+        self._animate()
+    
+    def _animate(self):
+        self.win.redraw()
+        time.sleep(0.1)
+    
