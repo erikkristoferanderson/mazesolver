@@ -45,3 +45,38 @@ class Window:
 
     def draw_line(self, line, fill_color='green'):
         line.draw(self.__canvas, fill_color)
+
+class Cell:
+    """
+    _x1 and _y1 represent the top left corner of the cell
+    _x2 and _y2 represent the bottom right corner of the cell
+    """
+    def __init__(self, _x1, _x2, _y1, _y2, _win,
+        has_left_wall=True,
+        has_right_wall=True,
+        has_top_wall=True,
+        has_bottom_wall=True,
+    ):
+        self._x1 = _x1
+        self._x2 = _x2
+        self._y1 = _y1
+        self._y2 = _y2
+        self._win = _win
+        self.has_left_wall = has_left_wall
+        self.has_right_wall = has_right_wall
+        self.has_top_wall = has_top_wall
+        self.has_bottom_wall = has_bottom_wall
+
+    def draw(self):
+        if self.has_top_wall:
+            l = Line(Point(self._x1,self._y1), Point(self._x2, self._y1))
+            self._win.draw_line(l)
+        if self.has_right_wall:
+            l = Line(Point(self._x2,self._y1), Point(self._x2, self._y2))
+            self._win.draw_line(l)
+        if self.has_bottom_wall:
+            l = Line(Point(self._x2,self._y2), Point(self._x1, self._y2))
+            self._win.draw_line(l)
+        if self.has_left_wall:
+            l = Line(Point(self._x1,self._y2), Point(self._x1, self._y1))
+            self._win.draw_line(l)
