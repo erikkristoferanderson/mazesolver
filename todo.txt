@@ -1,3 +1,0 @@
-- write a `_reset_cells_visited` method
-- call it after `_break_walls_r`
-- write a unit test
