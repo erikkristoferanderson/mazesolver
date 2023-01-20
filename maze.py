@@ -64,7 +64,8 @@ class Maze:
         self._cells[-1][-1].draw()
     
     def _break_walls_r(self, i, j):
-        time.sleep(0.1)
+        if self.win is not None:
+            time.sleep(0.1)
         self._cells[i][j].visited = True
         loop_counter = 0
         while True:
@@ -118,7 +119,8 @@ class Maze:
             if len(possible_to_visit) == 0:
                 # print('sanity check 9257887594')
                 self._cells[i][j].draw()
-                self.win.redraw()
+                if self.win is not None:
+                    self.win.redraw()
                 return
             else:
                 # print('possible to visit', possible_to_visit)
@@ -138,6 +140,12 @@ class Maze:
                     self._cells[to_visit[0]][to_visit[1]].has_left_wall = False
                 self._cells[i][j].draw()
                 self._cells[to_visit[0]][to_visit[1]].draw()
-                self.win.redraw()
+                if self.win is not None:
+                    self.win.redraw()
                 # recursive call
                 self._break_walls_r(to_visit[0], to_visit[1])
+    
+    def _reset_cells_visited(self):
+        for column in self._cells:
+            for cell in column:
+                cell.visited = False

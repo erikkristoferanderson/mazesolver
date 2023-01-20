@@ -71,6 +71,8 @@ class Cell:
         self.has_bottom_wall = has_bottom_wall
 
     def draw(self):
+        if self._win is None:
+            return
         l = Line(Point(self._x1,self._y1), Point(self._x2, self._y1))
         if self.has_top_wall:
             self._win.draw_line(l)

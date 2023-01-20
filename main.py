@@ -12,6 +12,7 @@ def main():
     m._break_entrance_and_exit()
     # time.sleep(3)
     m._break_walls_r(0, 0)
+    m._reset_cells_visited()
     win.wait_for_close()
     
 main()
