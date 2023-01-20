@@ -94,6 +94,9 @@ class Cell:
         else:
             self._win.draw_line(l, 'white')
 
+    def __repr__(self):
+        return f'Cell: ({self._x1},{self._y1}),({self._x2},{self._y2})'
+    
     def draw_move(self, to_cell, undo=False):
         self_x_center = (self._x1 + self._x2) / 2
         to_cell_x_center = (to_cell._x1 + to_cell._x2) / 2

@@ -55,7 +55,7 @@ class Maze:
     
     def _animate(self):
         self.win.redraw()
-        time.sleep(0.1)
+        time.sleep(0.01)
     
     def _break_entrance_and_exit(self):
         self._cells[0][0].has_top_wall = False
@@ -64,8 +64,10 @@ class Maze:
         self._cells[-1][-1].draw()
     
     def _break_walls_r(self, i, j):
+        self._animate()
         if self.win is not None:
-            time.sleep(0.1)
+            # time.sleep(0.01)
+            pass
         self._cells[i][j].visited = True
         loop_counter = 0
         while True:
@@ -120,7 +122,8 @@ class Maze:
                 # print('sanity check 9257887594')
                 self._cells[i][j].draw()
                 if self.win is not None:
-                    self.win.redraw()
+                    pass
+                    # self.win.redraw()
                 return
             else:
                 # print('possible to visit', possible_to_visit)
@@ -141,7 +144,8 @@ class Maze:
                 self._cells[i][j].draw()
                 self._cells[to_visit[0]][to_visit[1]].draw()
                 if self.win is not None:
-                    self.win.redraw()
+                    pass
+                    # self.win.redraw()
                 # recursive call
                 self._break_walls_r(to_visit[0], to_visit[1])
     
@@ -149,3 +153,87 @@ class Maze:
         for column in self._cells:
             for cell in column:
                 cell.visited = False
+    
+    def solve(self):
+        return self._solve_r(0, 0)
+
+    def _solve_r(self, i, j):
+        self._animate()
+        current_cell = self._cells[i][j]
+        current_cell.visited = True
+        if i == self.num_cols - 1 and j == self.num_rows - 1:
+            print('solved')
+            return True
+        # for right
+        check_i = i + 1
+        check_j = j
+        # if there is a cell in that direction
+        if (check_i >= 0 and check_i <= self.num_cols + 1
+            and check_j >= 0 and check_j <= self.num_rows + 1
+            # and there is no wall blocking
+            and current_cell.has_right_wall == False
+        ):
+            potential_cell = self._cells[check_i][check_j]
+            if potential_cell.visited == False and potential_cell.has_left_wall == False:
+                # draw a line from current_cell to potential_cell
+                current_cell.draw_move(potential_cell, undo=False)
+                if self._solve_r(check_i, check_j) == True:
+                    return True
+                else:
+                    potential_cell.draw_move(current_cell, undo=True)
+        # for left
+        check_i = i - 1
+        check_j = j
+        # if there is a cell in that direction
+        if (check_i >= 0 and check_i <= self.num_cols + 1
+            and check_j >= 0 and check_j <= self.num_rows + 1
+            # and there is no wall blocking
+            and current_cell.has_left_wall == False
+        ):
+            potential_cell = self._cells[check_i][check_j]
+            if (potential_cell.has_right_wall == False
+            and potential_cell.visited == False):
+            # draw a line from current_cell to potential_cell
+                current_cell.draw_move(potential_cell, undo=False)
+                if self._solve_r(check_i, check_j) == True:
+                    return True
+                else:
+                    potential_cell.draw_move(current_cell, undo=True)
+        # for top
+        check_i = i
+        check_j = j - 1
+        # if there is a cell in that direction
+        if (check_i >= 0 and check_i <= self.num_cols + 1
+            and check_j >= 0 and check_j <= self.num_rows + 1
+            # and there is no wall blocking
+            and current_cell.has_top_wall == False
+        ):
+            potential_cell = self._cells[check_i][check_j]
+
+            if (potential_cell.has_bottom_wall == False
+            and potential_cell.visited == False):
+                # draw a line from current_cell to potential_cell
+                current_cell.draw_move(potential_cell, undo=False)
+                if self._solve_r(check_i, check_j) == True:
+                    return True
+                else:
+                    potential_cell.draw_move(current_cell, undo=True)
+        # for bottom
+        check_i = i
+        check_j = j + 1
+        # if there is a cell in that direction
+        if (check_i >= 0 and check_i <= self.num_cols + 1
+            and check_j >= 0 and check_j <= self.num_rows + 1
+            # and there is no wall blocking
+            and current_cell.has_bottom_wall == False
+        ):
+            potential_cell = self._cells[check_i][check_j]
+            if (potential_cell.has_top_wall == False
+            and potential_cell.visited == False):
+                # draw a line from current_cell to potential_cell
+                current_cell.draw_move(potential_cell, undo=False)
+                if self._solve_r(check_i, check_j) == True:
+                    return True
+                else:
+                    potential_cell.draw_move(current_cell, undo=True)
+        return False
