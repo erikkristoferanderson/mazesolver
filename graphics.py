@@ -51,7 +51,9 @@ class Cell:
     _x1 and _y1 represent the top left corner of the cell
     _x2 and _y2 represent the bottom right corner of the cell
     """
-    def __init__(self, _x1, _x2, _y1, _y2, _win: Window = None,
+    def __init__(self, _x1, _x2, _y1, _y2,
+        visited: bool = False,
+        _win: Window = None,
         has_left_wall=True,
         has_right_wall=True,
         has_top_wall=True,
@@ -61,6 +63,7 @@ class Cell:
         self._x2 = _x2
         self._y1 = _y1
         self._y2 = _y2
+        self.visited = visited
         self._win = _win
         self.has_left_wall = has_left_wall
         self.has_right_wall = has_right_wall
