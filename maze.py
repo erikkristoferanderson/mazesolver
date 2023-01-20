@@ -10,7 +10,7 @@ class Maze:
         num_cols: int,
         cell_size_x: int,
         cell_size_y: int,
-        win: Window,
+        win: Window = None,
     ):
         self.x1 = x1
         self.y1 = y1
@@ -41,7 +41,7 @@ class Maze:
 
         for row in self._cells:
             for cell in row:
-                # cell.draw()
+                cell.draw()
                 pass
 
     def _draw_cell(self, i, j):
@@ -52,3 +52,8 @@ class Maze:
         self.win.redraw()
         time.sleep(0.1)
     
+    def _break_entrance_and_exit(self):
+        self._cells[0][0].has_top_wall = False
+        self._cells[0][0].draw()
+        self._cells[-1][-1].has_right_wall = False
+        self._cells[-1][-1].draw()

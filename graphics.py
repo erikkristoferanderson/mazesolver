@@ -51,7 +51,7 @@ class Cell:
     _x1 and _y1 represent the top left corner of the cell
     _x2 and _y2 represent the bottom right corner of the cell
     """
-    def __init__(self, _x1, _x2, _y1, _y2, _win: Window,
+    def __init__(self, _x1, _x2, _y1, _y2, _win: Window = None,
         has_left_wall=True,
         has_right_wall=True,
         has_top_wall=True,
@@ -68,18 +68,26 @@ class Cell:
         self.has_bottom_wall = has_bottom_wall
 
     def draw(self):
+        l = Line(Point(self._x1,self._y1), Point(self._x2, self._y1))
         if self.has_top_wall:
-            l = Line(Point(self._x1,self._y1), Point(self._x2, self._y1))
             self._win.draw_line(l)
+        else:
+            self._win.draw_line(l, 'white')
+        l = Line(Point(self._x2,self._y1), Point(self._x2, self._y2))
         if self.has_right_wall:
-            l = Line(Point(self._x2,self._y1), Point(self._x2, self._y2))
             self._win.draw_line(l)
-        if self.has_bottom_wall:
-            l = Line(Point(self._x2,self._y2), Point(self._x1, self._y2))
+        else:
+            self._win.draw_line(l, 'white')
+        l = Line(Point(self._x2,self._y2), Point(self._x1, self._y2))
+        if self.has_bottom_wall:        
             self._win.draw_line(l)
+        else:
+            self._win.draw_line(l, 'white')
+        l = Line(Point(self._x1,self._y2), Point(self._x1, self._y1))
         if self.has_left_wall:
-            l = Line(Point(self._x1,self._y2), Point(self._x1, self._y1))
             self._win.draw_line(l)
+        else:
+            self._win.draw_line(l, 'white')
 
     def draw_move(self, to_cell, undo=False):
         self_x_center = (self._x1 + self._x2) / 2
